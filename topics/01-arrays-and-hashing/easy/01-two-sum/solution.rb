@@ -1,31 +1,35 @@
-# Two Sum — Ruby
-# LeetCode #1 | Easy | Arrays & Hashing
+#REF: https://www.youtube.com/watch?v=KLlXCFG5TnA
 
-# Brute Force — O(n²) time, O(1) space
-def two_sum_brute(nums, target)
-  nums.each_with_index do |a, i|
-    nums.each_with_index do |b, j|
-      next if i == j
-      return [i, j] if a + b == target
+class ArrayBasics
+  def two_sum_brute(input_array, target_sum)
+    array_last_index = input_array.length-1
+    for i in 0...array_last_index do
+      for j in i+1..array_last_index do
+        if (input_array[i] + input_array[j]) ==  target_sum
+          return [i,j]
+        end
+      end
     end
   end
-  []
-end
 
-# Optimal — O(n) time, O(n) space
-def two_sum(nums, target)
-  seen = {} # value -> index
-
-  nums.each_with_index do |num, i|
-    complement = target - num
-    return [seen[complement], i] if seen.key?(complement)
-    seen[num] = i
+  def two_sum_optimised(input_array, target_sum)
+    array_map = {}
+    array_last_index = input_array.length - 1
+    for i in 0..array_last_index do
+      # print "Array map : #{array_map}\n"
+      difference = target_sum - input_array[i]
+      if array_map[difference]
+        return [array_map[difference], i]
+      else
+        array_map[input_array[i]] = i
+      end
+    end
   end
-
-  []
 end
 
-# Driver
-p two_sum([2, 7, 11, 15], 9)  # [0, 1]
-p two_sum([3, 2, 4], 6)       # [1, 2]
-p two_sum([3, 3], 6)          # [0, 1]
+
+array_obj = ArrayBasics.new
+
+print array_obj.two_sum_optimised([2, 7, 11, 15], 9) # [0, 1]
+print array_obj.two_sum_optimised([3, 2, 4], 6) # [1, 2]
+print array_obj.two_sum_optimised([3, 3], 6) # [0, 1]
