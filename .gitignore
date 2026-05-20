@@ -1,0 +1,20 @@
+# Java compiled output
+*.class
+*.jar
+target/
+out/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db

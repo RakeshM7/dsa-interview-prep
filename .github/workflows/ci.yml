@@ -1,0 +1,88 @@
+name: Run DSA Solutions
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-python:
+    name: Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Run all Python solutions
+        run: |
+          find topics -name "solution.py" | while read f; do
+            echo "▶ Running $f"
+            python3 "$f"
+          done
+
+  run-java:
+    name: Java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+      - name: Compile and run all Java solutions
+        run: |
+          find topics -name "Solution.java" | while read f; do
+            dir=$(dirname "$f")
+            echo "▶ Compiling $f"
+            javac -d "$dir" "$f"
+            (cd "$dir" && java Solution)
+          done
+
+  run-javascript:
+    name: JavaScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - name: Run all JavaScript solutions
+        run: |
+          find topics -name "solution.js" | while read f; do
+            echo "▶ Running $f"
+            node "$f"
+          done
+
+  run-typescript:
+    name: TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm install -g typescript
+      - name: Compile and run all TypeScript solutions
+        run: |
+          find topics -name "solution.ts" | while read f; do
+            echo "▶ Running $f"
+            tsc "$f" --target ES2020 --outDir /tmp/ts-out
+            node "/tmp/ts-out/$(basename ${f%.ts}).js"
+          done
+
+  run-ruby:
+    name: Ruby
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - name: Run all Ruby solutions
+        run: |
+          find topics -name "solution.rb" | while read f; do
+            echo "▶ Running $f"
+            ruby "$f"
+          done
