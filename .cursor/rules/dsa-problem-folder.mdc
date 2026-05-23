@@ -1,0 +1,39 @@
+---
+description: Scaffold new DSA problem folders under topics/ from a LeetCode title or URL
+alwaysApply: true
+---
+
+# DSA Problem Folder Scaffolding
+
+When the user asks to add a problem, create a problem folder, or gives a LeetCode name/URL, follow `.cursor/skills/dsa-problem-folder/SKILL.md` and `templates.md`.
+
+## Layout
+
+```
+topics/{NN-topic-slug}/{difficulty}/{NN-problem-slug}/
+  problem.md    notes.md    solution.rb
+  solution.py   solution.js solution.ts   Solution.java
+```
+
+- **Topic map:** 01 arrays-and-hashing · 02 two-pointers · 03 sliding-window · 04 binary-search · 05 linked-lists · 06 stacks-and-queues · 07 trees-and-graphs · 08 dynamic-programming · 09 recursion-and-backtracking · 10 sorting-and-searching
+- **Difficulty:** `easy` | `medium` | `hard` (use LeetCode difficulty when known)
+- **Folder number:** next `NN` under `topics/{topic}/{difficulty}/` (e.g. existing `01-*` → use `02-*`)
+- **No** `README.md` inside the problem folder
+
+## Workflow
+
+1. Resolve title, LeetCode #/URL, difficulty, and best-fit topic from the problem statement
+2. Create topic `README.md` if missing (see skill templates)
+3. Write all 8 files — substantive `problem.md` + `notes.md`; `solution.rb` with header, one `TODO` method, driver `puts` from examples; other language files empty
+4. Add a row to the topic README under the correct difficulty table
+5. Report full path, metadata, and files created — do **not** commit unless asked
+
+## Conventions
+
+- Ruby class: `{Topic}Processor` or `{Problem}Processor` (e.g. `StackProcessor`)
+- `problem.md` footer lists all 7 sibling files (match existing problems like `01-valid-parentheses`)
+- Pick topic by pattern (stack → 06, sliding window → 03, hash/array → 01, etc.); state choice if ambiguous
+
+## Example
+
+`Baseball Game` → `topics/06-stacks-and-queues/easy/02-baseball-game/` (LeetCode #682, stack simulation)
