@@ -42,19 +42,19 @@ tests = [
 # target = input("Enter the target: ")
 def two_sum(nums, target):
     tracker = {}
-    for i in range(len(nums)):
-        if (target - nums[i]) in tracker.keys():
-            return [tracker[target-nums[i]], i]
+    for index,value in enumerate(nums):
+        if (target - value) in tracker.keys():
+            return [tracker[target-value], index]
         else:
-            tracker[nums[i]] = i
+            tracker[value] = index
 
 for current_test_case in tests:
     two_sum_result = two_sum(current_test_case["nums"], current_test_case["target"])
     print(f"Test case {current_test_case['nums']} and target: {current_test_case['target']} result: {two_sum_result}")
-    # if two_sum_result == current_test_case["expected"]:
-    #     print("Test case passed")
-    # else:
-    #     print(f"Test case failed for input: {current_test_case['nums']} and target: {current_test_case['target']}")
-    #     print(f"Expected: {current_test_case['expected']}")
-    #     print(f"Actual: {two_sum_result}")
-    
+    if two_sum_result == current_test_case["expected"]:
+        print("Test case passed")
+    else:
+        print(f"Test case failed for input: {current_test_case['nums']} and target: {current_test_case['target']}")
+        print(f"Expected: {current_test_case['expected']}")
+        print(f"Actual: {two_sum_result}")
+
