@@ -70,3 +70,12 @@ else:
     process_ticket(ticket)
 finally:
     print("Cleanup always runs")
+
+try:
+    ticket = requests.get(ticket_id)
+except ConnectionError as e:
+    raise ApiTimeoutException
+else:
+    requests.process(ticket)
+finally:
+    cleanup()
