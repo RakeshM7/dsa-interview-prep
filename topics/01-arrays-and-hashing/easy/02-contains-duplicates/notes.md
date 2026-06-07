@@ -1,25 +1,39 @@
-# Contains Duplicate — Notes
+# Contains Duplicate - Notes
 
 ## Approaches
 
 ### Brute Force
-Compare every pair (i, j) where j > i. Return `true` on the first equal pair.
-- Time: O(n²)
-- Space: O(1)
-- When to mention: Always mention brute force first in interviews before jumping to the optimal solution.
+
+Compare every pair of elements. Return `true` when two equal values are found.
+
+- Time: `O(n²)`
+- Space: `O(1)`
+- Interview note: This is easy to explain, but it does not satisfy the required
+  `O(n)` runtime.
 
 ### Hash Set (Optimal)
-Single pass. For each element, check if it is already in the set. If yes, return `true`. If no, add it.
-- Time: O(n)
-- Space: O(n)
 
-**Key insight:** You only need to know whether a value was seen before — not its index — so a `Set` is enough (unlike Two Sum, which needs `value → index`).
+Traverse the array once. For each value:
 
-### Sort + Adjacent Compare (Alternative)
-Sort the array, then check if any adjacent elements are equal.
-- Time: O(n log n)
-- Space: O(1) if you can sort in place (or O(n) if sorting copies the array)
-- Useful when the interviewer asks for O(1) extra space and in-place mutation is allowed.
+1. Check whether it has already been seen.
+2. Return `true` immediately if it has.
+3. Otherwise, record it and continue.
+
+If the traversal finishes, return `false`.
+
+- Time: `O(n)` average
+- Space: `O(n)`
+
+**Key insight:** The problem only asks whether a value has appeared before, so
+a membership lookup is sufficient. You do not need to store indices or counts.
+
+### Sort and Compare Adjacent Values
+
+Sort the array and compare each value with the value before it.
+
+- Time: `O(n log n)`
+- Space: Depends on the sorting algorithm
+- Interview note: This does not satisfy the requested `O(n)` time constraint.
 
 ---
 
@@ -27,43 +41,55 @@ Sort the array, then check if any adjacent elements are equal.
 
 | Approach | Time | Space |
 |----------|------|-------|
-| Brute force | O(n²) | O(1) |
-| Hash set | O(n) | O(n) |
-| Sort + scan | O(n log n) | O(1) in-place |
+| Brute force | `O(n²)` | `O(1)` |
+| Hash set | `O(n)` average | `O(n)` |
+| Sort and scan | `O(n log n)` | Depends on sort |
 
 ---
 
 ## Interview Discussion Points
 
-**Q: Can you solve it without extra space?**
-Yes — sort first and compare neighbors. Trade-off: O(n log n) time and you mutate the input (or need O(n) space for a copy).
+**Q: Why is the hash-set approach O(n)?**
 
-**Q: What about an empty array or a single element?**
-Both return `false` — no pair exists to duplicate.
+Each element is visited once, and set membership and insertion are `O(1)` on
+average.
 
-**Q: Can you use `len(set(nums)) != len(nums)` in Python?**
-Yes — elegant one-liner, but still O(n) time and O(n) space to build the set. Good to mention, but walk through the explicit loop for clarity.
+**Q: Can the algorithm return early?**
 
-**Q: What if you need the duplicate value or its indices?**
-Extend the set approach: store `value → first index`, return as soon as you see a value already in the map.
+Yes. As soon as a previously seen value is encountered, the answer is known.
 
-**Q: How does this relate to Two Sum?**
-Same pattern — hash structure for O(1) lookups — but simpler: membership check only, no complement arithmetic.
+**Q: What should happen for an empty array or one element?**
+
+Return `false` because at least two occurrences are needed.
+
+**Q: Can this be solved with O(1) extra space?**
+
+Sorting in place and comparing adjacent values may use `O(1)` extra space, but
+the runtime becomes `O(n log n)`, which violates this problem's `O(n)`
+requirement.
+
+**Q: What if the interviewer asks for the duplicate value or its indices?**
+
+Return the repeated value when it is encountered, or use a map from value to
+its first index.
 
 ---
 
 ## Traps to Avoid
 
-- Empty array `[]` → `false`, not an error.
-- Single element `[5]` → `false`.
-- Negative numbers work the same; the set/hash handles them like any integer.
-- Do not confuse with **Contains Duplicate II** (duplicate within distance k) or **III** (within sorted window) — those need different techniques.
+- Returning `true` only when a value appears more than twice
+- Forgetting that `[0, 0]` contains a duplicate
+- Treating negative values differently from positive values
+- Scanning the entire array after a duplicate has already been found
+- Using nested loops despite the `O(n)` requirement
+- Confusing this problem with Contains Duplicate II, which adds a distance limit
 
 ---
 
 ## Related Problems
 
-- Contains Duplicate II — sliding window + hash set (distance ≤ k)
-- Contains Duplicate III — sorted set / tree map (value within range t)
-- Valid Anagram — same hashing theme, character counts
-- Two Sum — hash map with complement lookup
+- Contains Duplicate II - duplicate values within distance `k`
+- Contains Duplicate III - index and value-distance restrictions
+- Two Sum - hash map lookup with complements
+- Valid Anagram - frequency counting with hashing
+- First Non-Repeating Character - frequency-based uniqueness
