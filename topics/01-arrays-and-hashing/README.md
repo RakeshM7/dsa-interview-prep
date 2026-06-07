@@ -30,7 +30,7 @@ Use a **HashMap** (or HashSet) to trade space for time. Instead of a nested loop
 |---|---------|-------------|
 | 01 | [Two Sum](easy/01-two-sum/problem.md) | Store complement in HashMap |
 | 02 | Contains Duplicate | HashSet membership check |
-| 03 | Valid Anagram | Frequency count comparison |
+| 03 | [Valid Anagram](easy/03-valid-anagram-problem/problem.md) | Frequency count comparison |
 
 ### Medium
 | # | Problem | Key Insight |
